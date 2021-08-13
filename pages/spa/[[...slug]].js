@@ -8,14 +8,14 @@ import Nav from "../../components/SPA/Nav";
 import List from "../../components/SPA/List";
 import Item from "../../components/SPA/Item";
 import Sidebar from "../../components/SPA/Sidebar";
-
+import { screenGT, screenLT } from "../../lib/screen";
 
 const SPA = observer(({type, item, items}) => {
     const store = useStore()
     if (type !== null) store.setType(type)
     store.showItem(!!item)    
-    const smMain = store.isItem || store.sidebar ? ' d-none d-sm-block' : ''
-    const smSidebar = store.isItem || store.sidebar ? '' : ' d-none d-sm-block'
+    const showMain = screenGT(store.screen, 'xs') || (!store.isItem && !store.sidebar)
+    const showSidebar = !store.isItem && (screenGT(store.screen, 'xs') || store.sidebar)
 
     return (
         <>
@@ -24,8 +24,9 @@ const SPA = observer(({type, item, items}) => {
         <Topbar />
         <div className="row">
             <div className="col-sm-2 border"><Nav /></div>
-            <div className={`col-sm-5${smMain} border`}><List items={items} /></div>
-            <div className={`col-sm-5${smSidebar} border`}>{ store.isItem ? <Item item={item} /> : <Sidebar /> }</div>            
+            { showMain && <div className={`col-sm-5 border`}><List items={items} /></div> }
+            { showSidebar && <div className={`col-sm-5 border`}><Sidebar /></div> }          
+            { store.isItem && <div className={`col-sm-5 border`}><Item item={item} /></div> }
         </div>
         </>
     )
