@@ -7,7 +7,6 @@ export default async function fetchData() {
     return JSON.parse(fileContents)
 }
 
-
 // Direct return to deploy on vercel
 export function testData() {
     return [
