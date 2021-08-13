@@ -1,5 +1,5 @@
 import { useState } from "react";
-import fetchData from "../../data/fetchData";
+import {testData} from "../../data/fetchData";
 import { useStore } from "../../lib/context";
 import { observer } from "mobx-react";
 
@@ -45,7 +45,8 @@ export async function getStaticProps({params}) {
         item: null,
         items: []        
     }
-    const data = await fetchData()
+    //const data = await fetchData()
+    const data = testData()
     props.items = data.map(item => {
         return {
             type: item.type,
